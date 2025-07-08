@@ -99,14 +99,24 @@ const UserList = () => {
           User Directory
         </h2>
         <div className='form-control w-full mb-4'>
-          <input
-            type='text'
-            placeholder='Search users...'
-            className='input input-bordered w-full'
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            data-testid='search-input'
-          />
+          <div className='join join-item'>
+            <input
+              type='text'
+              placeholder='Search users...'
+              className='input input-bordered w-full'
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+              data-testid='search-input'
+            />
+            <button
+              className='btn join-item'
+              disabled={!searchTerm}
+              onClick={() => setSearchTerm('')}
+              data-testid='clear-search-btn'
+            >
+              &times;
+            </button>
+          </div>
         </div>
         {filteredUsers.length === 0 ? (
           <div className='text-center py-8' data-testid='no-users-message'>
