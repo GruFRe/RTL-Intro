@@ -12,7 +12,7 @@ const App = () => {
             This app demonstrates various components perfect for testing scenarios
           </p>
         </div>
-        <div className='grid gap-8 lg:grid-cols-2'>
+        <div className='grid gap-8 lg:grid-cols-4'>
           <div>
             <Counter initialValue={0} step={1} />
           </div>
