@@ -66,7 +66,7 @@ const UserList = () => {
     return (
       <div className='card bg-base-100 shadow-xl'>
         <div className='card-body items-center'>
-          <span className='loading loading-spinner loading-lg' data-testid='loading-spinner'></span>
+          <span className='loading loading-spinner loading-lg'></span>
           <p>Loading users...</p>
         </div>
       </div>
@@ -78,13 +78,9 @@ const UserList = () => {
       <div className='card bg-base-100 shadow-xl'>
         <div className='card-body items-center'>
           <div className='alert alert-error'>
-            <span data-testid='error-message'>{error}</span>
+            <span>{error}</span>
           </div>
-          <button
-            className='btn btn-primary mt-4'
-            onClick={() => fetchUsers()}
-            data-testid='retry-btn'
-          >
+          <button className='btn btn-primary mt-4' onClick={() => fetchUsers()}>
             Retry
           </button>
         </div>
@@ -95,9 +91,7 @@ const UserList = () => {
   return (
     <div className='card bg-base-100 shadow-xl'>
       <div className='card-body'>
-        <h2 className='card-title' data-testid='user-list-title'>
-          User Directory
-        </h2>
+        <h2 className='card-title'>User Directory</h2>
         <div className='form-control w-full mb-4'>
           <div className='join join-item'>
             <input
@@ -106,20 +100,18 @@ const UserList = () => {
               className='input input-bordered w-full'
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              data-testid='search-input'
             />
             <button
               className='btn join-item'
               disabled={!searchTerm}
               onClick={() => setSearchTerm('')}
-              data-testid='clear-search-btn'
             >
               &times;
             </button>
           </div>
         </div>
         {filteredUsers.length === 0 ? (
-          <div className='text-center py-8' data-testid='no-users-message'>
+          <div className='text-center py-8'>
             <p>No users found matching your search.</p>
           </div>
         ) : (
@@ -132,18 +124,12 @@ const UserList = () => {
                   <th>Email</th>
                 </tr>
               </thead>
-              <tbody data-testid='user-table-body'>
+              <tbody>
                 {filteredUsers.map(user => (
-                  <tr key={user.id} data-testid={`user-row-${user.id}`}>
-                    <td data-testid={`user-name-${user.id}`}>
-                      {highlightMatch(user.name, searchTerm)}
-                    </td>
-                    <td data-testid={`user-username-${user.id}`}>
-                      @{highlightMatch(user.username, searchTerm)}
-                    </td>
-                    <td data-testid={`user-email-${user.id}`}>
-                      {highlightMatch(user.email, searchTerm)}
-                    </td>
+                  <tr key={user.id}>
+                    <td>{highlightMatch(user.name, searchTerm)}</td>
+                    <td>@{highlightMatch(user.username, searchTerm)}</td>
+                    <td>{highlightMatch(user.email, searchTerm)}</td>
                   </tr>
                 ))}
               </tbody>
@@ -151,11 +137,7 @@ const UserList = () => {
           </div>
         )}
         <div className='card-actions justify-end mt-4'>
-          <button
-            className='btn btn-outline'
-            onClick={() => fetchUsers()}
-            data-testid='refresh-btn'
-          >
+          <button className='btn btn-outline' onClick={() => fetchUsers()}>
             Refresh
           </button>
         </div>

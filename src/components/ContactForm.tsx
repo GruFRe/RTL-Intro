@@ -49,9 +49,7 @@ const ContactForm = () => {
       <div className='card bg-base-100 shadow-xl'>
         <div className='card-body items-center text-center'>
           <div className='text-success text-6xl mb-4'>✓</div>
-          <h2 className='card-title text-success' data-testid='success-message'>
-            Thank you for your message!
-          </h2>
+          <h2 className='card-title text-success'>Thank you for your message!</h2>
           <p>We'll get back to you soon.</p>
         </div>
       </div>
@@ -60,10 +58,8 @@ const ContactForm = () => {
   return (
     <div className='card bg-base-100 shadow-xl'>
       <div className='card-body'>
-        <h2 className='card-title' data-testid='form-title'>
-          Contact Us
-        </h2>
-        <form action={formAction} data-testid='contact-form' noValidate>
+        <h2 className='card-title'>Contact Us</h2>
+        <form action={formAction} noValidate>
           <div className='form-control w-full'>
             <label htmlFor='name' className='label'>
               <span className='label-text'>Name *</span>
@@ -73,15 +69,12 @@ const ContactForm = () => {
               name='name'
               type='text'
               className={`input input-bordered w-full ${errors.name ? 'input-error' : ''}`}
-              data-testid='name-input'
               placeholder='Enter your name'
               defaultValue=''
             />
             {errors.name && (
               <label className='label'>
-                <span className='label-text-alt text-error' data-testid='name-error'>
-                  {errors.name}
-                </span>
+                <span className='label-text-alt text-error'>{errors.name}</span>
               </label>
             )}
           </div>
@@ -92,15 +85,12 @@ const ContactForm = () => {
             <input
               name='email'
               className={`input input-bordered w-full ${errors.email ? 'input-error' : ''}`}
-              data-testid='email-input'
               placeholder='Enter your email'
               defaultValue=''
             />
             {errors.email && (
               <label className='label'>
-                <span className='label-text-alt text-error' data-testid='email-error'>
-                  {errors.email}
-                </span>
+                <span className='label-text-alt text-error'>{errors.email}</span>
               </label>
             )}
           </div>
@@ -113,15 +103,12 @@ const ContactForm = () => {
               className={`textarea textarea-bordered w-full h-24 ${
                 errors.message ? 'textarea-error' : ''
               }`}
-              data-testid='message-input'
               placeholder='Enter your message'
               defaultValue=''
             />
             {errors.message && (
               <label className='label'>
-                <span className='label-text-alt text-error' data-testid='message-error'>
-                  {errors.message}
-                </span>
+                <span className='label-text-alt text-error'>{errors.message}</span>
               </label>
             )}
           </div>
@@ -132,18 +119,12 @@ const ContactForm = () => {
                 name='subscribe'
                 type='checkbox'
                 className='checkbox checkbox-primary'
-                data-testid='subscribe-checkbox'
               />
               <span className='label-text ml-2'>Subscribe to newsletter</span>
             </label>
           </div>
           <div className='card-actions justify-end mt-4'>
-            <button
-              type='submit'
-              className='btn btn-primary'
-              data-testid='submit-btn'
-              disabled={isPending}
-            >
+            <button type='submit' className='btn btn-primary' disabled={isPending}>
               {isPending && <span className='loading loading-spinner loading-sm'></span>}
               Send Message
             </button>
