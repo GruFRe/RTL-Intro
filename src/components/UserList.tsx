@@ -7,6 +7,21 @@ type User = {
   username: string;
 };
 
+const highlightMatch = (text: string, searchTerm: string) => {
+  if (!searchTerm) return text;
+  const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  const parts = text.split(regex);
+  return parts.map((part, index) =>
+    regex.test(part) ? (
+      <mark key={index} className='bg-yellow-300 text-black rounded'>
+        {part}
+      </mark>
+    ) : (
+      part
+    )
+  );
+};
+
 const UserList = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
@@ -110,9 +125,15 @@ const UserList = () => {
               <tbody data-testid='user-table-body'>
                 {filteredUsers.map(user => (
                   <tr key={user.id} data-testid={`user-row-${user.id}`}>
-                    <td data-testid={`user-name-${user.id}`}>{user.name}</td>
-                    <td data-testid={`user-username-${user.id}`}>@{user.username}</td>
-                    <td data-testid={`user-email-${user.id}`}>{user.email}</td>
+                    <td data-testid={`user-name-${user.id}`}>
+                      {highlightMatch(user.name, searchTerm)}
+                    </td>
+                    <td data-testid={`user-username-${user.id}`}>
+                      @{highlightMatch(user.username, searchTerm)}
+                    </td>
+                    <td data-testid={`user-email-${user.id}`}>
+                      {highlightMatch(user.email, searchTerm)}
+                    </td>
                   </tr>
                 ))}
               </tbody>
