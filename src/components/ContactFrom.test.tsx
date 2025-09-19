@@ -1,8 +1,14 @@
 // import from testing lib
 import { describe, it, expect } from "vitest";
-import { getByRole, render, screen, waitFor } from "@testing-library/react";
+import {
+	act,
+	getByRole,
+	fireEvent,
+	render,
+	screen,
+	waitFor,
+} from "@testing-library/react";
 // import for another test function
-import { fireEvent } from "@testing-library/react";
 // import component
 import ContactForm from "./ContactForm";
 
@@ -74,11 +80,53 @@ describe("Test the Contact Form Component", () => {
 			// act
 			// use submit methob on form elements
 			fireEvent.submit(form);
-			// assert with an async waitFor because of delay
+			// assert within an async waitFor because of delay API Response
 			await waitFor(() => {
+				// await multiple things in one waitFor is valid and recommended because of performance
 				expect(
 					screen.queryByText(/name is required/i)
 				).toBeInTheDocument();
+				expect(
+					screen.queryByText(/email is required/i)
+				).toBeInTheDocument();
+				expect(
+					screen.queryByText(/message is required/i)
+				).toBeInTheDocument();
+			});
+		});
+	});
+	// third test suit
+	describe("Test succesful submission behaviour", () => {
+		// Test in here -> async again because of delay from server
+		it("Test Submission behaviour", async () => {
+			// arrange with rendering
+			render(<ContactForm />);
+
+			// and assigning fields and form to ariables for easier usage
+			const form = screen.getByRole("form");
+			const nameInput = screen.getByLabelText(/Name \*/i);
+			const emailInput = screen.getByLabelText(/Email \*/i);
+			const messageInput = screen.getByLabelText(/Message \*/i);
+
+			// act -> input values
+			fireEvent.change(nameInput, { target: { value: "John Doe" } });
+			fireEvent.change(emailInput, {
+				target: { value: "john@gmx.de" },
+			});
+			fireEvent.change(messageInput, {
+				target: { value: "Hello World of Tests! ;)" },
+			});
+
+			await act(async () => {
+				// press submit
+				fireEvent.submit(form);
+			});
+
+			screen.debug();
+
+			// assert in waitFor again because of delay
+			await waitFor(() => {
+				expect(screen.getByText(/Thank.*message/i)).toBeInTheDocument();
 			});
 		});
 	});
