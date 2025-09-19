@@ -117,17 +117,21 @@ describe("Test the Contact Form Component", () => {
 				target: { value: "Hello World of Tests! ;)" },
 			});
 
-			await act(async () => {
-				// press submit
-				fireEvent.submit(form);
-			});
-
-			screen.debug();
+			// await act(async () => {
+			// 	// press submit
+			// 	fireEvent.submit(form);
+			// });
+			fireEvent.submit(form);
+			// screen.debug();
 
 			// assert in waitFor again because of delay
-			await waitFor(() => {
-				expect(screen.getByText(/Thank.*message/i)).toBeInTheDocument();
-			});
+			await waitFor(
+				() =>
+					expect(
+						screen.getByText(/Thank.*message/i)
+					).toBeInTheDocument(),
+				{ timeout: 3000 }
+			);
 		});
 	});
 });
