@@ -10,7 +10,7 @@ const __dirname = dirname(__filename);
 
 // https://vite.dev/config/
 export default defineConfig({
-	base: "/CI/",
+	base: "./",
 	resolve: {
 		alias: {
 			"@": resolve(__dirname, "./src"),
