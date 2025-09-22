@@ -1,0 +1,51 @@
+name: CI
+# Trigger on pushes and PRs targeting main
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+# Required for Pages OIDC authentication and artefact upload
+permissions:
+    contents: read # actions/checkout needs this
+    pages: write # actions/upload-pages-artifact + deploy-pages
+    id-token: write # deploy-pages requests an OIDC token
+jobs:
+    # Single job with a Node version matrix
+    test-and-build:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [22, 24] # Use 22 because it's current LTS and 24 to future proof
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ matrix.node-version }}
+                  cache: "npm" # re‑use ~/.npm cache between runs
+            - name: Install dependencies
+              run: npm ci # install exactly what package‑lock pins
+            - name: Run tests with coverage
+              run: npx vitest run --coverage
+            - name: Upload coverage report
+              uses: actions/upload-artifact@v4
+              with:
+                  name: coverage-${{ matrix.node-version }}
+                  path: coverage # HTML & lcov reports for later inspection
+            - name: Build for production
+              run: npm run build # tsc → vite build
+            - name: Upload build artefact
+              if: matrix.node-version == 22 # build once on Node LTS
+              uses: actions/upload-pages-artifact@v3
+              with:
+                  path: dist # static files that Pages will serve
+    # Separate job to publish when all matrix legs are green
+    deploy:
+        needs: test-and-build
+        if: github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy to GitHub Pages
+              uses: actions/deploy-pages@v4
