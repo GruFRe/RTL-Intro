@@ -21,7 +21,7 @@ export default defineConfig({
 		globals: true,
 		environment: "jsdom",
 		setupFiles: ["./src/vitest.setup.ts"],
-		// added coverageand treshholds
+		// added coverage and treshholds
 		coverage: {
 			provider: "istanbul", // Istanbul JS is a test coverage tool
 			reporter: ["text", "json", "html"],
