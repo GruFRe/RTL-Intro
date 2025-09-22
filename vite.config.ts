@@ -10,6 +10,7 @@ const __dirname = dirname(__filename);
 
 // https://vite.dev/config/
 export default defineConfig({
+	base: "/CI/",
 	resolve: {
 		alias: {
 			"@": resolve(__dirname, "./src"),
@@ -20,5 +21,15 @@ export default defineConfig({
 		globals: true,
 		environment: "jsdom",
 		setupFiles: ["./src/vitest.setup.ts"],
+		// added coverageand treshholds
+		coverage: {
+			provider: "istanbul", // Istanbul JS is a test coverage tool
+			reporter: ["text", "json", "html"],
+			thresholds: {
+				branches: 80,
+				functions: 80,
+				statements: 80,
+			},
+		},
 	},
 });
