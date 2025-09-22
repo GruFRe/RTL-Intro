@@ -1,13 +1,6 @@
 // import from testing lib
 import { describe, it, expect } from "vitest";
-import {
-	act,
-	getByRole,
-	fireEvent,
-	render,
-	screen,
-	waitFor,
-} from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 // import for another test function
 // import component
 import ContactForm from "./ContactForm";
